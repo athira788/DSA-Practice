@@ -1,0 +1,19 @@
+Problem : Given two strings s and t, return true if the two strings are anagrams of each other, otherwise return false.
+An anagram is a string that contains the exact same characters as another string, but the order of the characters can be different.
+
+Example 1:
+Input: s = "racecar", t = "carrace"
+Output: true
+
+Solution: We will return false if the length is not same for both sequences, else increement for all values encountered in string 1 & decerement for values in string 2
+in an array intialized to 0 . At the end, if the array has non zero values return false.
+
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        l = [0]*26
+        if(len(s) != len(t)):
+            return False
+        for i in range(len(s)):
+            l[ord(s[i]) - ord('a')] += 1
+            l[ord(t[i]) - ord('a')] -= 1
+        return all(i == 0 for i in l)
