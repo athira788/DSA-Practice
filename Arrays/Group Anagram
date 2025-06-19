@@ -1,0 +1,21 @@
+Group Anagrams
+Problem: Given an array of strings strs, group all anagrams together into sublists. You may return the output in any order.
+An anagram is a string that contains the exact same characters as another string, but the order of the characters can be different.
+
+Example 1:
+Input: strs = ["act","pots","tops","cat","stop","hat"]
+Output: [["hat"],["act", "cat"],["stop", "pots", "tops"]]
+
+Solution: We will itrate through the input. For each string we will create(initlized to 0) & increment a fixed size list of 26 szie for english alphabets. The resulting
+values are stored in a hashmap as key & teh string is appended as value. Finally return the hashmap values which would have grouped.
+
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        from collections import defaultdict
+        hashmap = defaultdict(list)
+        for i in strs:
+            arr = [0]*26
+            for j in i:
+                arr[ord(j) - ord('a')] +=1
+            hashmap[tuple(arr)].append(i)
+        return [i for i in hashmap.values()]
