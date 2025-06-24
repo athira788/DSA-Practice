@@ -1,0 +1,31 @@
+Problem: Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1.
+
+Example 1:
+Input: nums = [0,1]
+Output: 2
+Explanation: [0, 1] is the longest contiguous subarray with an equal number of 0 and 1.
+Example 2:
+
+Input: nums = [0,1,0]
+Output: 2
+Explanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.
+
+Solution : We will be using prefix Sum.We will initialize a hashmap with key as prefix Sum value and value as index in array, to 0 value for -1 index as base case.
+Here we will have a prefSum variable which calculate the prefixSum value at that index. For all 1s increment by 1 and all 0s decrement by -1. Add the them in hashMap.
+If we encounter same prefix Sum value again, we will get the length of subarray by subtracting the previous encounter of value registerd in hashmap fro mcurrent index
+(cuz prefix Sum logic  sum(left,right) = p[right] - p[left+1] so length = right - (left + 1) +1 = right - left). Then compare it with maxLen. Time & space = O(n)
+
+class Solution:
+    def findMaxLength(self, nums: List[int]) -> int:
+        prefSum = 0
+        maxLen = 0
+        hashMap = {0:-1}
+        for id,val in enumerate(nums):
+            prefSum += 1 if val == 1 else -1
+            if(prefSum in hashMap):
+                length = id - hashMap[prefSum]
+                maxLen = max(maxLen,length)
+            else:
+                hashMap[prefSum] = id
+        return maxLen
+        
