@@ -1,0 +1,38 @@
+Problem : Given an m x n grid of characters board and a string word, return true if word exists in the grid.
+The word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. 
+The same letter cell may not be used more than once.
+
+Example 1:
+Input: board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+Output: true
+
+Solution: We will iterate over the board. for each element we will clal backtrack. This method will check whether th the letter is same as letter in word, then
+explore the neighbours by incrmeneting the index for matching the next letter in word. Time : O(N x 3^L) where N is total number of cells, 3 options to be explored
+and L is the length of the word. Space compelxity is O(L)
+
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        rows = len(board)
+        cols = len(board[0])
+
+        def backtrack(r,c,id):
+            if(id == len(word)):
+                return True
+            if(0>r or r>= rows or 0>c or c >= cols or board[r][c] != word[id]):
+                return False
+            temp = board[r][c]
+            board[r][c] = '#'
+            directions = [(0,1),(1,0),(0,-1),(-1,0)]
+            for dr,dc in directions:
+                if(backtrack(r + dr,c + dc,id + 1)):
+                    return True
+            board[r][c] = temp
+            return False
+        
+        for r in range(rows):
+            for c in range(cols):
+                if(backtrack(r,c,0)):
+                    return True
+        return False
+
+        
