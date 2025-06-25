@@ -1,0 +1,26 @@
+Problem : Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. 
+Return the answer in any order.A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+
+Example 1:
+Input: digits = "23"
+Output: ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+
+Solution: We will create a dictionary or array to keep the number to letters mapping. For each number we will iterate through the letters and add string to list
+only if its length matches with the number of digits. Time - O(4^n) and Space - O(nx4^n).
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        res = []
+        if(not digits):
+            return []
+        hashMap = {'2': 'abc', '3':'def', '4': 'ghi','5':'jkl','6': 'mno',
+        '7':'pqrs','8':'tuv','9':'wxyz'}
+        def backtracking(id,val):
+            if(id == len(digits)):
+                res.append(val)
+                return
+            letters = hashMap[digits[id]]
+            for l in letters:
+                backtracking(id+1,val+l)
+        backtracking(0,"")
+        return res
+        
