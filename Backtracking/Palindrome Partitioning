@@ -1,0 +1,23 @@
+Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.
+
+Example 1:
+Input: s = "aab"
+Output: [["a","a","b"],["aa","b"]]
+
+Solution: Here we will keep tarck of start anf end. From start to end we will check if the string is palindrome, then add to path & call backtrack. it will add to the 
+final result list when start equates to length of the string. Here ending is 1+ start fro slicing purposes. Time = O(n x2^n) Space = O(n x2^n)
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        res = []
+        def backtrack(start,path):
+            if(start==len(s)):
+                res.append(path[:]) 
+                return
+            for end in range(start+1,len(s)+1):
+                prefix = s[start:end]
+                if(prefix == prefix[::-1]):
+                    path.append(prefix)
+                    backtrack(end,path)
+                    path.pop()
+        backtrack(0,[])
+        return res
