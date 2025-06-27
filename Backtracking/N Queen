@@ -1,0 +1,45 @@
+The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
+Given an integer n, return all distinct solutions to the n-queens puzzle. You may return the answer in any order.
+Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space, respectively.
+
+Example 1:
+Input: n = 4
+Output: [[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+
+Solution: We will place each queen in each column. Keep track of row and diagonals by adding them to sets. Once the queen is place we call backtrack and provide 
+the next column. The next recursion will place the check the row, diagobal1 and diagonal2 before placing the second queen. In case the all placements are not done,
+then we will undo backtrack by removing the entries from row,d1 & d2. Once the col reachhes final number we wil ladd it to result. Time - O(n!) & space - O(n)
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        res = []
+        board = [-1]*n
+        rows = set()
+        diagonal2 =set()
+        diagonal1 =set()
+
+        def isValid(r,c):
+            return (r not in rows and r-c not in diagonal1 and r+c not in diagonal2)
+        def backtracking(col):
+            if(col == n):
+                solution=['.'*n for _ in range(n)]
+                for c in range(n):
+                    r = board[c]
+                    rowString = list(solution[r])
+                    rowString[c] = 'Q'
+                    solution[r] = ''.join(rowString)
+                res.append(solution)
+                return
+                
+            for row in range(n):
+                if(isValid(row,col)):
+                    board[col] = row
+                    rows.add(row)
+                    diagonal1.add(row-col)
+                    diagonal2.add(row+col)
+                    backtracking(col+1)
+                    #undo backtrack
+                    rows.remove(row)
+                    diagonal1.remove(row-col)
+                    diagonal2.remove(row+col)
+        backtracking(0)
+        return res
