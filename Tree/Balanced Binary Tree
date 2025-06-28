@@ -1,0 +1,25 @@
+Problem: Given a binary tree, determine if it is height-balanced.
+
+Example 1:
+Input: root = [3,9,20,null,null,15,7]
+Output: true
+
+Solution: We will ieterate through each node cacluate height & check the height on left & right. If the Difference is greater than 1 return -1. Once any node's height is -1, it will be propagated to the top. True is
+returned only when the answer is not -1.Time & Space both - O(n).
+class Solution:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        def getHeight(root):
+            if(not root):
+                return 0
+            leftHeight = getHeight(root.left)
+            if(leftHeight == -1):
+                return -1
+            rightHeight = getHeight(root.right)
+            if(rightHeight == -1):
+                return -1
+            if(abs(leftHeight - rightHeight) > 1):
+                return -1
+            return 1+max(leftHeight,rightHeight)
+        return getHeight(root) != -1
+            
+        
