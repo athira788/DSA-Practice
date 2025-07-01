@@ -1,0 +1,35 @@
+Problem: Given n requests from ip addresses & corresponding timestamp, allow  arequest only if the number of requests from the same IP is less than limit within 
+a given time window. You must return a list specifying if the request was accepted(1) or rejected(0).
+
+Example:
+timestamps =  [1600040547954, 1600040547957, 1600040547958] 
+ipAddresses = ["127.105.232.211", "127.105.232.211", "127.105.232.211"] 
+limit = 1
+timewindow = 3
+Output = [1, 0, 1]
+
+Solution: We will go through each timestanp & corresponding ip address. We wil lcreate a dictionary to hold ip address with corresponding timestamp queue
+for easy access. We will use dq variable as refernce to map which will store the accepeted request. Dq wil have the time stamps of the current ip, cremove them if it 
+is old as in out of time window, if inside time window we will check the limit & add or remove the current timestamp apend1 or 0 accrodingly. Time - O(n) 
+Space - O(n+m)
+
+from collections import defaultdict, deque
+def solution(timestamps, ipAddresses, limit, timeWindow):
+    res = []
+    ipTimeStampMapping = defaultdict(deque)
+
+    for i in range(len(timestamps)):
+        ts = timestamps[i]
+        ip = ipAddresses[i]
+        dq = ipTimeStampMapping[ip]
+
+        # Remove timestamps strictly outside the time window
+        while dq and dq[0] < ts - timeWindow + 1:
+            dq.popleft()
+
+        if len(dq) < limit:
+            dq.append(ts)
+            res.append(1)
+        else:
+            res.append(0)
+    return res
