@@ -1,0 +1,22 @@
+Problem: Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
+Return the number of good nodes in the binary tree.
+
+Example 1:
+Input: root = [3,1,4,3,null,1,5]
+Output: 4
+
+Solution: We will iterate through all teh nodes check if the value is graeter than max value, increment coutn if it is. The self.count will act as a global variable
+while maxVal will act as local variable. Time - O(n) & Space - O(h)
+class Solution:
+    def goodNodes(self, root: TreeNode) -> int:
+        self.count = 0
+        def dfs(node,maxVal):
+            if(not node):
+                return 0
+            if(node.val>=maxVal):
+                self.count+=1
+                maxVal = node.val
+            dfs(node.left,maxVal)
+            dfs(node.right,maxVal)
+        dfs(root,root.val)
+        return self.count
