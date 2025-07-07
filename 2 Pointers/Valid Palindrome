@@ -1,0 +1,26 @@
+Problem: Given a string s, return true if it is a palindrome, otherwise return false.
+A palindrome is a string that reads the same forward and backward. It is also case-insensitive and ignores all non-alphanumeric characters.
+Note: Alphanumeric characters consist of letters (A-Z, a-z) and numbers (0-9).
+
+Example 1:
+Input: s = "Was it a car or a cat I saw?"
+Output: true
+
+Solution: Brute force also give O(n) by joining all lowercase letters after alphumeric check and comaprison by slicing. But this gives O(n) soace complexity. For space, using 2 pointer will be better which is O(1).
+def isPalindrome(self, s: str) -> bool:
+        left,right = 0 , len(s)-1
+        def isAlnum(c):
+            return ('a'<=c<='z' or 
+                    'A'<=c<='Z' or
+                    '0'<=c<='9')
+
+        while(left<right):
+            while(left<right and not isAlnum(s[left])):
+                left+=1
+            while(left<right and not isAlnum(s[right])):
+                right-=1
+            if(s[left].lower() != s[right].lower()):
+                return False
+            left+=1
+            right-=1
+        return True
