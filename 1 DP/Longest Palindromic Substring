@@ -1,0 +1,27 @@
+Problem:
+Given a string s, return the longest palindromic substring in s.
+
+Example 1:
+Input: s = "babad"
+Output: "bab"
+Explanation: "aba" is also a valid answer.
+
+Solution:Consider each character as middle, compare the current value is same,  move left & right pointer compare the next characters. check if the current length is greater than end-start which was initialized to 
+0. Update the start & end indexes if lesser than current length and iterate. We will calculate palindrome length twice once considering it as sole centre & second when the string is even. We need to iterate for n
+characters, we have to expand outwards & for worst case scenario (like 'aaaaaa') the expansion will be n. Therefore, Time - O(n^2) and Space O(1)
+
+def longestPalindrome(self, s: str) -> str:
+  curLen=end=start = 0
+  def getLen(leftId,rightId):
+      while(leftId>=0 and rightId<len(s) and s[leftId] == s[rightId]):
+          leftId-=1
+          rightId+=1
+      return rightId-leftId-1
+  for i in range(len(s)):
+      leftLen = getLen(i,i)
+      rightLen = getLen(i,i+1)
+      curLen = max(leftLen,rightLen)
+      if(curLen>end-start):
+          start = i - (curLen-1)//2
+          end = i+curLen//2
+  return s[start:end+1]
