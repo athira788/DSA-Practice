@@ -1,0 +1,22 @@
+Problem: Given head, the head of a linked list, determine if the linked list has a cycle in it.
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next 
+pointer is connected to. Note that pos is not passed as a parameter.
+Return true if there is a cycle in the linked list. Otherwise, return false.
+
+Example 1:
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+
+Solution: We can solve this using hashset or hash map.But in that case the time & space ecomplexity will be O(n) and O(n) respectively. Instead we will be using fast pointer-slow pointer concept. We will increment
+the slow pointer by 1 and fast pointer by 2. If they became same, then cycle exists. If fast pointer reaches the none after the last node, then no cycle exists. them & space is - O(n) & O(1)
+
+def hasCycle(self, head: Optional[ListNode]) -> bool:
+    fastptr = head
+    slowptr = head
+    while fastptr and fastptr.next:
+        slowptr = slowptr.next
+        fastptr = fastptr.next.next
+        if(slowptr == fastptr):
+            return True
+    return False
